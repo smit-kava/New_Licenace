@@ -13,9 +13,9 @@ const WrapperContainer = ({ children }: Props) => {
     <SafeAreaView style={[styles.mainstyle, { backgroundColor: theme.colors.background }]}>
       <StatusBar
       barStyle={theme.dark ? 'light-content' : 'dark-content'}
-      backgroundColor={theme.colors.background}
+      backgroundColor={theme.colors.surface}
     />
-      <View style={[styles.mainstyle, { backgroundColor: theme.colors.background }]}>
+      <View style={[styles.mainstyle, {backgroundColor: theme.colors.background}]}>
         {children}
       </View>
     </SafeAreaView>

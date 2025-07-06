@@ -105,7 +105,7 @@ export default function AddCustomer() {
                 onChangeText={field.onChange}
                 value={field.value}
                 error={!!methods.formState.errors.address}
-                placeholder="Enter your address"
+                placeholder="Enter your Address"
               />
             )}
           />
@@ -120,7 +120,7 @@ export default function AddCustomer() {
                 onChangeText={field.onChange}
                 value={field.value}
                 error={!!methods.formState.errors.city}
-                placeholder="Enter your city"
+                placeholder="Enter your City"
               />
             )}
           />
@@ -136,7 +136,7 @@ export default function AddCustomer() {
                 onChangeText={field.onChange}
                 value={field.value}
                 error={!!methods.formState.errors.country}
-                placeholder="Enter your country"
+                placeholder="Enter your Country"
               />
             )}
           />

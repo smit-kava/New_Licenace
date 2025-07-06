@@ -7,12 +7,12 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Icon } from 'react-native-paper';
-import { Customer } from '../common/Customer';
-import { License } from '../common/License';
-import Addcustomer from '../Pages/Addcustomer';
-import AddLicense from '../Pages/AddLicense';
-import CustomerLicense from '../Pages/CustomerLicense';
-import Licenses from '../Pages/Licenses';
+import { Customer } from '../../../../../../../../Andriods/New_Licenace/common/Customer';
+import { License } from '../../../../../../../../Andriods/New_Licenace/common/License';
+import Addcustomer from '../../../../../../../../Andriods/New_Licenace/Pages/Addcustomer';
+import AddLicense from '../../../../../../../../Andriods/New_Licenace/Pages/AddLicense';
+import CustomerLicense from '../../../../../../../../Andriods/New_Licenace/Pages/CustomerLicense';
+import Licenses from '../../../../../../../../Andriods/New_Licenace/Pages/Licenses';
 import BottomTabs from './Bottom';
 
 export type RootStackParamList = {
@@ -32,7 +32,7 @@ const DrawerToggleButton = () => {
     <TouchableOpacity
       onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
       style={{marginRight: 10}}>
-      <Icon source={require('../assets/Menu/menu.png')} size={20} />
+      <Icon source={require('../assets/Menu/menu.png')} size={22} />
     </TouchableOpacity>
   );
 };

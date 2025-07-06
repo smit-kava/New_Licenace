@@ -33,7 +33,6 @@ const NewLicense = z.object({
 const theme = useTheme();
 const AddLicense = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-
   const route =
     useRoute<RouteProp<{params: {id: string; objLicense: License}}>>();
 
@@ -78,7 +77,7 @@ const AddLicense = () => {
           console.log('License created successfully:', res);
           showFlash('License created successfully', 'success');
           navigation.navigate('Dashbord', {screen: 'Customers'});
-          // Alert.alert('License created successfully', JSON.stringify(res));
+          Alert.alert('License created successfully', JSON.stringify(res));
         },
         (err: string) => {
           console.error('Error creating license:', err);
@@ -164,7 +163,6 @@ const AddLicense = () => {
             />
           )}
         />
-        <Textinput name={'displayname'} placeholder="Enter your License Name" />
         <View
           style={{
             display: 'flex',
@@ -173,7 +171,7 @@ const AddLicense = () => {
             alignContent: 'center',
           }}>
           <Button
-            mode="contained"
+            mode="outlined"
             onPress={methods.handleSubmit(onSubmit)}
             style={[
               styles.Button,
@@ -182,13 +180,13 @@ const AddLicense = () => {
             Submit
           </Button>
           <Button
-            mode="contained"
+            mode="outlined"
             style={[
               styles.Button,
               {backgroundColor: theme.colors.onBackground},
             ]}
             onPress={() => {
-              navigation.navigate('Dashbord', {screen: 'customers'});
+              navigation.navigate('Dashbord');
             }}>
             Cancel
           </Button>

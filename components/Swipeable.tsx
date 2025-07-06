@@ -14,6 +14,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import CustomIcon from './Icon';
 import { Delete, Edit } from '../assets/Iconify-Icon';
+import { Text } from 'react-native-paper';
 
 const SCREEN_WIDTH = Dimensions.get('screen').width;
 const SWIPE_THRESHOLD = -0.3 * SCREEN_WIDTH;
@@ -77,10 +78,12 @@ export const SwipeableItem = ({children, onDelete, onEdit}: Props) => {
           style={[styles.background, rContainerStyle, rBackgroundStyle]}>
           <View style={styles.leftAction}>
             {/* <CustomIcon name={'Edit'}  /> */}
+             <Text style={styles.iconContainer}>Edit</Text>
             <Edit/>
           </View>
           <View style={styles.rightAction}>
             {/* <CustomIcon name={'Delete'} /> */}
+            <Text style={styles.iconContainer}>Delete</Text>
             <Delete/>
           </View>
         </Animated.View>
@@ -89,6 +92,7 @@ export const SwipeableItem = ({children, onDelete, onEdit}: Props) => {
             <Animated.View style={{flex: 1}}>{children}</Animated.View>
           </GestureDetector>
         </Animated.View>
+
       </GestureHandlerRootView>
     </>
   );
@@ -97,17 +101,17 @@ export const SwipeableItem = ({children, onDelete, onEdit}: Props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: 'white',
-    borderRadius: 8,
+    borderRadius: 0,
     overflow: 'hidden',
     width: '100%',
     position: 'absolute',
   },
   background: {
     backgroundColor: 'red',
-    borderRadius: 8,
+    borderRadius: 0,
     justifyContent: 'center',
     alignItems: 'flex-end',
-    paddingRight: 20,
+    paddingRight: 2,
     width: '100%',
   },
   leftAction: {

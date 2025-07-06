@@ -2,8 +2,8 @@ import {createDrawerNavigator} from '@react-navigation/drawer';
 import React from 'react';
 import Profile from '../Pages/Profile';
 import HomeStack from './Stack'; // This should include your BottomTabs + other stack screens
-import WrapperContainer from '../components/WrapperContainer';
 import {useTheme} from 'react-native-paper';
+import WrapperContainer from '../components/WrapperContainer';
 
 const Drawer = createDrawerNavigator();
 

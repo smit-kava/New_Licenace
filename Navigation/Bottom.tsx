@@ -19,14 +19,15 @@ const BottomTabs = () => {
     <Tab.Navigator
       screenOptions={{
         headerShown: false,
-  headerStyle: {
-      backgroundColor: theme.colors.surface,   
-    },
-     headerTintColor: theme.colors.onSurface,
+        headerStyle: {
+          backgroundColor: theme.colors.surface,
+        },
+        headerTintColor: theme.colors.onSurface,
         tabBarStyle: {
           height: 70,
           paddingBottom: 10,
           paddingTop: 10,
+          borderRadius: 2,
           backgroundColor: theme.colors.background,
         },
         tabBarItemStyle: {
@@ -37,6 +38,7 @@ const BottomTabs = () => {
         name="Dashbord"
         component={Dashbord}
         options={{
+          headerTintColor: theme.colors.onSurface,
           headerLeft: () => <DrawerToggleButton />,
           tabBarLabel: '',
           headerShown: true,
@@ -55,6 +57,7 @@ const BottomTabs = () => {
         name="Customers"
         component={Customers}
         options={{
+          headerTintColor: theme.colors.onSurface,
           headerShown: true,
           title: 'Customers',
           headerLeft: () => <DrawerToggleButton />,
@@ -68,7 +71,6 @@ const BottomTabs = () => {
             />
           ),
           tabBarLabel: '',
-
           tabBarIcon: ({focused}) => (
             <TabIcon
               focused={focused}
@@ -84,6 +86,7 @@ const BottomTabs = () => {
         name="Decode"
         component={Decode}
         options={{
+          headerTintColor: theme.colors.onSurface,
           headerLeft: () => <DrawerToggleButton />,
           headerShown: true,
           tabBarLabel: '',

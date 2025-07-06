@@ -1,14 +1,7 @@
 import {RouteProp, useNavigation, useRoute} from '@react-navigation/native';
 import {NativeStackNavigationProp} from '@react-navigation/native-stack';
 import React, {useEffect, useState} from 'react';
-import {
-  Alert,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {Alert, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import {
   ActivityIndicator,
   Button,
@@ -19,11 +12,10 @@ import {
   useTheme,
 } from 'react-native-paper';
 import {Customer} from '../common/Customer';
+import PullToRefreshWrapper from '../components/RefereshScreen';
 import {SwipeableItem} from '../components/Swipeable';
 import WrapperContainer from '../components/WrapperContainer';
 import {RootStackParamList} from '../Navigation/Stack';
-import PullToRefreshWrapper from '../components/RefereshScreen';
-import Dailogs from '../components/Dailogs';
 const theme = useTheme();
 const Customers = () => {
   const theme = useTheme();
@@ -35,6 +27,7 @@ const Customers = () => {
 
   const route =
     useRoute<RouteProp<{params: {customerID: string; Name: string}}>>();
+
   const navigation =
     useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const getData = (
@@ -137,8 +130,9 @@ const Customers = () => {
       },
     );
   };
+
   return (
-    <WrapperContainer>
+   <WrapperContainer>
       {loading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator
@@ -155,14 +149,20 @@ const Customers = () => {
           {data.map((item: Customer) => (
             <SwipeableItem
               key={item.id}
-              onDelete={() => {
-                Onremove(item.id);
-              }}
+              onDelete={() => Onremove(item.id)}
               onEdit={() => Editdata(item)}>
-              <Card style={styles.card}>
+              <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
                 <TouchableOpacity onPress={() => openDetailsDialog(item)}>
-                  <Card.Content style={{padding: 0, margin: 0}}>
-                    <Text style={styles.cardText}>{item.name}</Text>
+                  <Card.Content>
+                    <Text
+                      style={[
+                        styles.cardText,
+                        { color: theme.colors.onSurface },
+                      ]}>
+                      {item.name}
+                    </Text>
+                    {/* {''}
+                    <Text>LicenseDetailsh...</Text> */}
                     <View
                       style={{
                         flexDirection: 'row',
@@ -186,25 +186,29 @@ const Customers = () => {
           ))}
         </PullToRefreshWrapper>
       )}
+
+      {/* Customer Detail Dialog */}
       <Portal>
         <Dialog visible={selectedCustomer !== null} onDismiss={closeDialog}>
           <Dialog.Title>Customer Details</Dialog.Title>
           <Dialog.Content>
             {selectedCustomer && (
               <View>
-                <Text style={{fontFamily: 'sans-serif'}}>
+                <Text style={{ color: theme.colors.onSurface }}>
                   Name: {selectedCustomer.address}
                   {'\n'}
                   Address: {selectedCustomer.city}
                   {'\n'}
-                  Country:{selectedCustomer.country}
+                  Country: {selectedCustomer.country}
                   {'\n'}
                   Contact: {selectedCustomer.contactinfo}
-                  {'\n'}
                 </Text>
               </View>
             )}
           </Dialog.Content>
+          <Dialog.Actions>
+            <Button onPress={closeDialog}>Close</Button>
+          </Dialog.Actions>
         </Dialog>
       </Portal>
     </WrapperContainer>
@@ -218,12 +222,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    backgroundColor: theme.colors.background,
+    height: 100,
+    borderRadius: 0,
+    marginVertical: 0,
+    marginHorizontal: 0,
   },
   cardText: {
     fontSize: 20,
     fontWeight: 'bold',
     top: 10,
-    color: theme.colors.onSurface,
   },
 });

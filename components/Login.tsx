@@ -16,8 +16,8 @@ import { NavigationProp, useNavigation } from '@react-navigation/native';
 import { ApiEndpoints, CallApi } from '../common/Api';
 import { Card, TextInput, Button, useTheme, Text } from 'react-native-paper';
 import { Controller, useForm } from 'react-hook-form';
-import WrapperContainer from './WrapperContainer';
 import { HidePassword, ShowPassword } from '../assets/Iconify-Icon';
+import WrapperContainer from './WrapperContainer';
 
 type LoginProps = {
   onLoginSuccess: () => void;
@@ -71,7 +71,7 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <WrapperContainer>
           <View style={styles.container}>
-            <Card style={[styles.card, { backgroundColor: theme.colors.elevation.level2 }]}>
+            <Card style={[styles.card, { backgroundColor: theme.colors.elevation.level3 }]}>
               <Card.Content>
                 <View style={styles.logoContainer}>
                   <Image
@@ -80,7 +80,6 @@ const Login: React.FC<LoginProps> = ({ onLoginSuccess }) => {
                     resizeMode="contain"
                   />
                 </View>
-
                 <Controller
                 control={control}
                 name="username"
