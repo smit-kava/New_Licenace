@@ -15,10 +15,10 @@ import uuid from 'react-native-uuid';
 import {z} from 'zod';
 import {Customer} from '../common/Customer';
 import {showFlash} from '../components/Flash';
-import FormProvider from '../hooks/FormProvider';
 import {RootStackParamList} from '../Navigation/Stack';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 import WrapperContainer from '../components/WrapperContainer';
+import FormProvider from '../hooks/FormProvider';
 
 const NewCustomer = z.object({
   id: z.string(),

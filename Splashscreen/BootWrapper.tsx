@@ -4,7 +4,7 @@ import {Platform, StatusBar, View} from 'react-native';
 import {AnimatedBootSplash} from '../components/AnimatedBootSplash';
 import RootStack from '../Routing/RootStack';
 import {useTheme} from 'react-native-paper';
-const theme = useTheme();
+import WrapperContainer from '../components/WrapperContainer';
 export const BootWrapper = () => {
   const [visible, setVisible] = useState(true);
 
@@ -17,11 +17,7 @@ export const BootWrapper = () => {
   }, []);
 
   return (
-    <View style={{flex: 1}}>
-      <StatusBar
-        barStyle={theme.dark ? 'light-content' : 'dark-content'}
-        backgroundColor={theme.dark ? 'black' : 'white'}
-      />
+   <WrapperContainer>
       {!visible ? <RootStack /> : null}
       {visible && (
         <AnimatedBootSplash
@@ -30,6 +26,6 @@ export const BootWrapper = () => {
           }}
         />
       )}
-    </View>
+   </WrapperContainer>
   );
 };

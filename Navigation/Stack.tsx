@@ -26,16 +26,7 @@ export type RootStackParamList = {
 };
 
 const Stack = createNativeStackNavigator();
-const DrawerToggleButton = () => {
-  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
-  return (
-    <TouchableOpacity
-      onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-      style={{marginRight: 10}}>
-      <Icon source={require('../assets/Menu/menu.png')} size={22} />
-    </TouchableOpacity>
-  );
-};
+
 const StackRouting = () => {
   return (
     <Stack.Navigator>

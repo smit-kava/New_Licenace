@@ -6,12 +6,25 @@ import Decode from '../Pages/Decode';
 import Licenses from '../Pages/Licenses';
 import {Decodes, Groups, License, Menu, Users} from '../assets/Iconify-Icon';
 import TabIcon from '../components/TabIcon';
-import {Button, IconButton, useTheme} from 'react-native-paper';
-import {DrawerToggleButton} from '@react-navigation/drawer';
-import {NavigationProp, useNavigation} from '@react-navigation/native';
+import {Button, Icon, IconButton, useTheme} from 'react-native-paper';
+import {DrawerActions, NavigationProp, useNavigation} from '@react-navigation/native';
 import {RootStackParamList} from './Stack';
+import { TouchableOpacity } from 'react-native';
 
-const Tab = createBottomTabNavigator();
+  const Tab = createBottomTabNavigator();
+
+const DrawerToggleButton = () => {
+  const navigation = useNavigation<NavigationProp<RootStackParamList>>();
+  return (
+    <TouchableOpacity
+      onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
+      style={{marginRight: 10}}>
+      <Icon source={require('../assets/Menu/menu.png')} size={22} />
+    </TouchableOpacity>
+  );
+};
+
+
 const BottomTabs = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const theme = useTheme();

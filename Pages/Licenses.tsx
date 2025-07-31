@@ -4,13 +4,8 @@ import {
   useNavigation,
   useRoute,
 } from '@react-navigation/native';
-import React, { useEffect, useState } from 'react';
-import {
-  Alert,
-  StyleSheet,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {Alert, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {
   ActivityIndicator,
   Button,
@@ -20,11 +15,11 @@ import {
   Text,
   useTheme,
 } from 'react-native-paper';
-import { License } from '../common/License';
+import {License} from '../common/License';
 import PullToRefreshWrapper from '../components/RefereshScreen';
-import { SwipeableItem } from '../components/Swipeable';
+import {SwipeableItem} from '../components/Swipeable';
 import WrapperContainer from '../components/WrapperContainer';
-import { RootStackParamList } from '../Navigation/Stack';
+import {RootStackParamList} from '../Navigation/Stack';
 const theme = useTheme();
 export default function Licenses() {
   const [licenses, setLicenses] = useState<License[]>([]);
@@ -32,13 +27,16 @@ export default function Licenses() {
   const [selectedLicense, setSelectedLicense] = useState<License | null>(null);
   const [refreshing, setRefreshing] = useState(false);
 
-  const route = useRoute<RouteProp<{ params: { Name: string } }>>();
+  const route = useRoute<RouteProp<{params: {Name: string}}>>();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
 
-  const getData = (onSuccess: (res: any) => void, onFailure: (res: any) => void) => {
+  const getData = (
+    onSuccess: (res: any) => void,
+    onFailure: (res: any) => void,
+  ) => {
     License.GetLicenseList(
       res => onSuccess(Array.isArray(res) ? res : []),
-      err => onFailure(err)
+      err => onFailure(err),
     );
   };
 
@@ -52,7 +50,7 @@ export default function Licenses() {
       err => {
         console.log(err);
         setLoading(false);
-      }
+      },
     );
   }, []);
 
@@ -64,23 +62,27 @@ export default function Licenses() {
   const closeDialog = () => setSelectedLicense(null);
 
   const Onremove = (licenseID: string) => {
-    Alert.alert('Confirm Delete', 'Are you sure you want to delete this license?', [
-      { text: 'Cancel', style: 'cancel' },
-      {
-        text: 'Delete',
-        style: 'destructive',
-        onPress: () => {
-          License.deleteLicense(
-            licenseID,
-            res => {
-              Alert.alert('Success', res);
-              getallLicenses();
-            },
-            err => Alert.alert('Error', err)
-          );
+    Alert.alert(
+      'Confirm Delete',
+      'Are you sure you want to delete this license?',
+      [
+        {text: 'Cancel', style: 'cancel'},
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            License.deleteLicense(
+              licenseID,
+              res => {
+                Alert.alert('Success', res);
+                getallLicenses();
+              },
+              err => Alert.alert('Error', err),
+            );
+          },
         },
-      },
-    ]);
+      ],
+    );
   };
 
   const onEdit = (license: License) => {
@@ -94,28 +96,39 @@ export default function Licenses() {
     <WrapperContainer>
       {loading ? (
         <View style={styles.loaderContainer}>
-          <ActivityIndicator size="small" animating={true} color={theme.colors.primary} />
+          <ActivityIndicator
+            size="small"
+            animating={true}
+            color={theme.colors.primary}
+          />
         </View>
       ) : (
-        <PullToRefreshWrapper refreshing={refreshing} onRefresh={getallLicenses} loading={loading}>
+        <PullToRefreshWrapper
+          refreshing={refreshing}
+          onRefresh={getallLicenses}
+          loading={loading}>
           {licenses.map((item: License) => (
             <SwipeableItem
               key={item.licenseid}
               onDelete={() => Onremove(item.customerid)}
-              onEdit={() => onEdit(item)}
-            >
-              <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+              onEdit={() => onEdit(item)}>
+              <Card
+                style={[styles.card, {backgroundColor: theme.colors.surface}]}>
                 <TouchableOpacity onPress={() => openDetailsDialog(item)}>
                   <Card.Content>
                     <Text
-                      style={[styles.cardText, { color: theme.colors.onSurface }]}
-                    >
+                      style={[
+                        styles.cardText,
+                        {color: theme.colors.onSurface},
+                      ]}>
                       {item.displayname}
                     </Text>
                     <Text
-                      style={[styles.expiryText, { color: theme.colors.onSurface }]}
-                      variant="bodySmall"
-                    >
+                      style={[
+                        styles.expiryText,
+                        {color: theme.colors.onSurface},
+                      ]}
+                      variant="bodySmall">
                       Expire {item.expirydate}
                     </Text>
                   </Card.Content>
@@ -131,16 +144,24 @@ export default function Licenses() {
           <Dialog.Title>License Details</Dialog.Title>
           <Dialog.Content>
             {selectedLicense && (
-              <Text style={{ color: theme.colors.onSurface }}>
+              <Text style={{color: theme.colors.onSurface}}>
+                License ID:{selectedLicense.licenseid}
+                {'\n'}
+                {'\n'}
                 Type: {selectedLicense.type === 0 ? 'Regular' : 'Other'}
+                {'\n'}
                 {'\n'}
                 License Days: {selectedLicense.licensedays}
                 {'\n'}
+                {'\n'}
                 Max Activation: {selectedLicense.maxactivation}
+                {'\n'}
                 {'\n'}
                 Status: {selectedLicense.status === 0 ? 'Active' : 'Inactive'}
                 {'\n'}
+                {'\n'}
                 Activated On: {selectedLicense.activatedon ? 'Yes' : 'No'}
+                {'\n'}
                 {'\n'}
                 Expiry Date: {selectedLicense.expirydate}
               </Text>
@@ -165,7 +186,7 @@ const styles = StyleSheet.create({
     height: 80,
     marginBottom: 0,
     borderRadius: 0,
-    elevation:5,
+    elevation: 5,
   },
   cardText: {
     fontSize: 16,

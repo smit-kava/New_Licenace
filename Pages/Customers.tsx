@@ -132,7 +132,7 @@ const Customers = () => {
   };
 
   return (
-   <WrapperContainer>
+    <WrapperContainer>
       {loading ? (
         <View style={styles.loaderContainer}>
           <ActivityIndicator
@@ -151,13 +151,14 @@ const Customers = () => {
               key={item.id}
               onDelete={() => Onremove(item.id)}
               onEdit={() => Editdata(item)}>
-              <Card style={[styles.card, { backgroundColor: theme.colors.surface }]}>
+              <Card
+                style={[styles.card, {backgroundColor: theme.colors.surface}]}>
                 <TouchableOpacity onPress={() => openDetailsDialog(item)}>
                   <Card.Content>
                     <Text
                       style={[
                         styles.cardText,
-                        { color: theme.colors.onSurface },
+                        {color: theme.colors.onSurface},
                       ]}>
                       {item.name}
                     </Text>
@@ -186,20 +187,24 @@ const Customers = () => {
           ))}
         </PullToRefreshWrapper>
       )}
-
-      {/* Customer Detail Dialog */}
       <Portal>
         <Dialog visible={selectedCustomer !== null} onDismiss={closeDialog}>
           <Dialog.Title>Customer Details</Dialog.Title>
           <Dialog.Content>
             {selectedCustomer && (
               <View>
-                <Text style={{ color: theme.colors.onSurface }}>
+                <Text style={{color: theme.colors.onSurface}}>
+                  id:{selectedCustomer.id}
+                  {'\n'}
+                  {'\n'}
                   Name: {selectedCustomer.address}
+                  {'\n'}
                   {'\n'}
                   Address: {selectedCustomer.city}
                   {'\n'}
+                  {'\n'}
                   Country: {selectedCustomer.country}
+                  {'\n'}
                   {'\n'}
                   Contact: {selectedCustomer.contactinfo}
                 </Text>
