@@ -1,14 +1,14 @@
 import {
   DrawerActions,
   NavigationProp,
-  useNavigation
+  useNavigation,
 } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import { Icon } from 'react-native-paper';
-import { Customer } from '../../../../../../../../Andriods/New_Licenace/common/Customer';
-import { License } from '../../../../../../../../Andriods/New_Licenace/common/License';
+import {TouchableOpacity} from 'react-native';
+import {Icon, useTheme} from 'react-native-paper';
+import {Customer} from '../../../../../../../../Andriods/New_Licenace/common/Customer';
+import {License} from '../../../../../../../../Andriods/New_Licenace/common/License';
 import Addcustomer from '../../../../../../../../Andriods/New_Licenace/Pages/Addcustomer';
 import AddLicense from '../../../../../../../../Andriods/New_Licenace/Pages/AddLicense';
 import CustomerLicense from '../../../../../../../../Andriods/New_Licenace/Pages/CustomerLicense';
@@ -16,7 +16,7 @@ import Licenses from '../../../../../../../../Andriods/New_Licenace/Pages/Licens
 import BottomTabs from './Bottom';
 
 export type RootStackParamList = {
-  AddLicense: {id:string; objLicense?: License};
+  AddLicense: {id: string; objLicense?: License};
   Addcustomer: {objCustomer?: Customer};
   Dashbord: {screen: string} | undefined;
   Customers: {screen: string} | undefined;
@@ -28,41 +28,51 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator();
 
 const StackRouting = () => {
+  const theme = useTheme();
   return (
     <Stack.Navigator>
-     
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Tabs"
         component={BottomTabs}
-        options={({route}) => {
-          const routeName = getFocusedRouteNameFromRoute(route) ?? 'Dashbord';
-          const titleMap: Record<string, string> = {
-            Dashbord: 'Dashboard',
-            Customers: 'Customers',
-            Decode: 'Decode',
-            License: 'Licenses',
-          };
-          return {
-            title: titleMap[routeName] || routeName,
-            headerLeft: () => <DrawerToggleButton />,
-          };
-        }}
-      /> */}
-<Stack.Screen
-  name="Tabs"
-  component={BottomTabs}
-  options={{ headerShown: false }}
-/>
+        options={{headerShown: false, headerTintColor: theme.colors.onSurface}}
+      />
+
       <Stack.Screen
         name="Addcustomer"
         component={Addcustomer}
-        options={{title: 'Add Customer'}}
+        options={({navigation}) => ({
+          tabBarStyle: {display: theme.colors.onSurface},
+          title: 'Add Customer',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: theme.colors.surface,
+          },
+          headerTintColor: theme.colors.onSurface,
+          headerShadowVisible: true,
+          contentStyle: {
+            backgroundColor: theme.colors.background,
+          },
+        })}
       />
+
       <Stack.Screen
         name="AddLicense"
         component={AddLicense}
-        options={{title: 'Add License'}}
+        options={({navigation}) => ({
+          tabBarStyle: {display: 'none'},
+          title: 'Add License',
+          headerShown: true,
+          headerStyle: {
+            backgroundColor: theme.colors.surface,
+          },
+          headerTintColor: theme.colors.onSurface,
+          headerShadowVisible: true,
+          contentStyle: {
+            backgroundColor: theme.colors.background,
+          },
+        })}
       />
+
       <Stack.Screen
         name="Licenses"
         component={Licenses}

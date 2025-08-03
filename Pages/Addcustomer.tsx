@@ -42,7 +42,7 @@ export default function AddCustomer() {
         cust,
         (res: Customer) => {
           showFlash('Customer created successfully', 'green', 'success');
-          navigation.navigate('Customers');
+          navigation.goBack();
           console.log('Customer created successfully', res);
         },
         (err: string) => {
@@ -55,7 +55,7 @@ export default function AddCustomer() {
         cust,
         (res: Customer) => {
           Alert.alert('Customer updated successfully');
-          navigation.navigate('Dashbord', {screen: 'Dashbord'});
+          navigation.goBack();
           console.log('Customer updated:', res);
         },
         (err: string) => {
@@ -78,104 +78,102 @@ export default function AddCustomer() {
 
   return (
     <WrapperContainer>
-        <FormProvider methods={methods}>
-          <Controller
-            control={methods.control}
-            name="name"
-            render={({field}) => (
-              <TextInput
-                label="Name"
-                mode="outlined"
-                style={{margin: 10}}
-                onChangeText={field.onChange}
-                value={field.value}
-                error={!!methods.formState.errors.name}
-                placeholder="Enter your Customer Name"
-              />
-            )}
-          />
-          <Controller
-            control={methods.control}
-            name="address"
-            render={({field}) => (
-              <TextInput
-                label="Address"
-                mode="outlined"
-                style={{margin: 10}}
-                onChangeText={field.onChange}
-                value={field.value}
-                error={!!methods.formState.errors.address}
-                placeholder="Enter your Address"
-              />
-            )}
-          />
-          <Controller
-            control={methods.control}
-            name="city"
-            render={({field}) => (
-              <TextInput
-                label="City"
-                mode="outlined"
-                style={{margin: 10}}
-                onChangeText={field.onChange}
-                value={field.value}
-                error={!!methods.formState.errors.city}
-                placeholder="Enter your City"
-              />
-            )}
-          />
-          {/* Country Input */}
-          <Controller
-            control={methods.control}
-            name="country"
-            render={({field}) => (
-              <TextInput
-                label="Country"
-                mode="outlined"
-                style={{margin: 10}}
-                onChangeText={field.onChange}
-                value={field.value}
-                error={!!methods.formState.errors.country}
-                placeholder="Enter your Country"
-              />
-            )}
-          />
-          {/* Contact Info Input */}
-          <Controller
-            control={methods.control}
-            name="contactinfo"
-            render={({field}) => (
-              <TextInput
-                label="Contact Info"
-                mode="outlined"
-                keyboardType="phone-pad"
-                style={{margin: 10}}
-                onChangeText={field.onChange}
-                value={field.value}
-                error={!!methods.formState.errors.contactinfo}
-                placeholder="Enter your contact info"
-              />
-            )}
-          />
-          <View style={styles.Buttoncontainer}>
-            <Button
+      <FormProvider methods={methods}>
+        <Controller
+          control={methods.control}
+          name="name"
+          render={({field}) => (
+            <TextInput
+              label="Name"
               mode="outlined"
-              onPress={methods.handleSubmit(onSubmit)}
-              style={styles.Button}>
-              Submit
-            </Button>
-            <Button
+              style={{margin: 10}}
+              onChangeText={field.onChange}
+              value={field.value}
+              error={!!methods.formState.errors.name}
+              placeholder="Enter your Customer Name"
+            />
+          )}
+        />
+        <Controller
+          control={methods.control}
+          name="address"
+          render={({field}) => (
+            <TextInput
+              label="Address"
               mode="outlined"
-              style={styles.Button}
-              onPress={() => {
-                  //  navigation.navigate('Dashbord', {screen: 'Dashboard'});
-              }}>
-              cancel
-            </Button>
-          </View>
-          <FlashMessage duration={10} position={'top'} autoHide />
-        </FormProvider>
-      </WrapperContainer>
+              style={{margin: 10}}
+              onChangeText={field.onChange}
+              value={field.value}
+              error={!!methods.formState.errors.address}
+              placeholder="Enter your Address"
+            />
+          )}
+        />
+        <Controller
+          control={methods.control}
+          name="city"
+          render={({field}) => (
+            <TextInput
+              label="City"
+              mode="outlined"
+              style={{margin: 10}}
+              onChangeText={field.onChange}
+              value={field.value}
+              error={!!methods.formState.errors.city}
+              placeholder="Enter your City"
+            />
+          )}
+        />
+        {/* Country Input */}
+        <Controller
+          control={methods.control}
+          name="country"
+          render={({field}) => (
+            <TextInput
+              label="Country"
+              mode="outlined"
+              style={{margin: 10}}
+              onChangeText={field.onChange}
+              value={field.value}
+              error={!!methods.formState.errors.country}
+              placeholder="Enter your Country"
+            />
+          )}
+        />
+        {/* Contact Info Input */}
+        <Controller
+          control={methods.control}
+          name="contactinfo"
+          render={({field}) => (
+            <TextInput
+              label="Contact Info"
+              mode="outlined"
+              keyboardType="phone-pad"
+              style={{margin: 10}}
+              onChangeText={field.onChange}
+              value={field.value}
+              error={!!methods.formState.errors.contactinfo}
+              placeholder="Enter your contact info"
+            />
+          )}
+        />
+        <View style={styles.Buttoncontainer}>
+          <Button
+            mode="outlined"
+            onPress={methods.handleSubmit(onSubmit)}
+            style={styles.Button}>
+            Submit
+          </Button>
+          <Button
+            mode="outlined"
+            style={styles.Button}
+            onPress={() => navigation.goBack()}>
+            Cancel
+          </Button>
+        </View>
+        <FlashMessage duration={10} position={'top'} autoHide />
+      </FormProvider>
+    </WrapperContainer>
   );
 }
 const styles = StyleSheet.create({

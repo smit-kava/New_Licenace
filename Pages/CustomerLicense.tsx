@@ -7,35 +7,38 @@ import {
 import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
-  SafeAreaView,
+  Alert,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  ScrollView,
-  Alert,
-  StatusBar,
 } from 'react-native';
 import {Button, Card, Dialog, Portal, useTheme} from 'react-native-paper';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
 import {License} from '../common/License';
 import {SwipeableItem} from '../components/Swipeable';
 import {RootStackParamList} from '../Navigation/Stack';
 import WrapperContainer from '../components/WrapperContainer';
 import PullToRefreshWrapper from '../components/RefereshScreen';
-const theme = useTheme();
+  const theme = useTheme();
 export default function CustomerLicense() {
+  const theme = useTheme();
+
+
   const [licenses, setLicenses] = useState<License[]>([]);
   const [error, setError] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
-  const [selectedLicense, setSelectedLicense] = React.useState<License | null>(
-    null,
-  );
+  const [selectedLicense, setSelectedLicense] = useState<License | null>(null);
   const [loading, setLoading] = useState(true);
+
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route = useRoute<RouteProp<{params: {customerID: string}}>>();
   const {customerID} = route.params;
-  const theme = useTheme();
+
+  useEffect(() => {
+    if (customerID) {
+      customerLicense();
+    }
+  }, [customerID]);
 
   const customerLicense = () => {
     License.getCustomerLicenseList(
@@ -50,12 +53,6 @@ export default function CustomerLicense() {
       },
     );
   };
-
-  useEffect(() => {
-    if (customerID) {
-      customerLicense();
-    }
-  }, [customerID]);
 
   const openDetailsDialog = (license: License) => {
     setSelectedLicense(license);
@@ -96,10 +93,9 @@ export default function CustomerLicense() {
 
   return (
     <WrapperContainer>
-      {' '}
       {loading ? (
         <View style={styles.loaderContainer}>
-          <ActivityIndicator size="large" color={theme.colors.onSurface} />
+          <ActivityIndicator size="large" color={theme.colors.primary} />
         </View>
       ) : (
         <PullToRefreshWrapper
@@ -109,34 +105,18 @@ export default function CustomerLicense() {
           {licenses.map((item: License) => (
             <SwipeableItem
               key={item.licenseid}
-              onDelete={() => {
-                Onremove(item.licenseid);
-              }}
+              onDelete={() => Onremove(item.licenseid)}
               onEdit={() => {}}>
               <Card style={styles.card}>
                 <TouchableOpacity onPress={() => openDetailsDialog(item)}>
                   <Card.Content>
-                    <Text
-                      style={{
-                        top: 10,
-                      }}>
-                      {item.displayname}
-                    </Text>
-                    <View
-                      style={{
-                        alignItems: 'flex-end',
-                        top: 20,
-                      }}>
-                      <Text style={{fontSize: 10}}>
+                    <Text style={styles.titleText}>{item.displayname}</Text>
+                    <View style={styles.rightAlign}>
+                      <Text style={styles.smallText}>
                         Expire {item.expirydate}
                       </Text>
                     </View>
-                    <Text
-                      style={{
-                        fontSize: 15,
-                      }}>
-                      {item.expirydate}
-                    </Text>
+                    <Text style={styles.dateText}>{item.expirydate}</Text>
                   </Card.Content>
                 </TouchableOpacity>
               </Card>
@@ -144,14 +124,15 @@ export default function CustomerLicense() {
           ))}
         </PullToRefreshWrapper>
       )}
+
       <Portal>
         <Dialog visible={selectedLicense !== null} onDismiss={closeDialog}>
           <Dialog.Title>License Details</Dialog.Title>
           <Dialog.Content>
             {selectedLicense && (
               <View>
-                <Text style={{color: 'white', fontFamily: 'sans-serif'}}>
-                  Type: {selectedLicense.type == 0 ? 'reguler' : ' other'}
+                <Text style={styles.dialogText}>
+                  Type: {selectedLicense.type == 0 ? 'Regular' : 'Other'}
                   {'\n'}
                   License Days: {selectedLicense.licensedays}
                   {'\n'}
@@ -160,11 +141,7 @@ export default function CustomerLicense() {
                   Status: {selectedLicense.status == 1 ? 'Active' : 'Inactive'}
                   {'\n'}
                   Activated On:{' '}
-                  {
-                    (selectedLicense.activatedon = false
-                      ? 'Active'
-                      : 'Inactive')
-                  }
+                  {selectedLicense.activatedon ? 'Active' : 'Inactive'}
                   {'\n'}
                   Expiry Date: {selectedLicense.expirydate}
                 </Text>
@@ -180,31 +157,37 @@ export default function CustomerLicense() {
   );
 }
 
+// Dynamic styles based on theme
 const styles = StyleSheet.create({
-  screenContainer: {
-    flex: 1,
-    justifyContent: 'space-between',
-    padding: 16,
-  },
-  loaderContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  card: {
-    marginBottom: 12,
-    borderRadius: 8,
-    elevation: 5,
-    height: 50,
-    backgroundColor: theme.colors.onSurface,
-  },
-  cardText: {
-    fontSize: 25,
-    fontWeight: 'bold',
-    backgroundColor: theme.colors.onSurface,
-  },
-  dialogContentText: {
-    marginBottom: 8,
-    fontSize: 15,
-  },
-});
+    loaderContainer: {
+      flex: 1,
+      justifyContent: 'center',
+      alignItems: 'center',
+    },
+    card: {
+      marginBottom: 12,
+      borderRadius: 8,
+      elevation: 5,
+      backgroundColor: theme.colors.surface,
+    },
+    titleText: {
+      top: 10,
+      color: theme.colors.onSurface,
+    },
+    rightAlign: {
+      alignItems: 'flex-end',
+      top: 20,
+    },
+    smallText: {
+      fontSize: 10,
+      color: theme.colors.onSurface,
+    },
+    dateText: {
+      fontSize: 15,
+      color: theme.colors.onSurface,
+    },
+    dialogText: {
+      color: theme.colors.onSurface,
+      fontSize: 14,
+    },
+  });

@@ -20,8 +20,9 @@ import PullToRefreshWrapper from '../components/RefereshScreen';
 import {SwipeableItem} from '../components/Swipeable';
 import WrapperContainer from '../components/WrapperContainer';
 import {RootStackParamList} from '../Navigation/Stack';
-const theme = useTheme();
+
 export default function Licenses() {
+  const theme = useTheme(); // ✅ move inside component
   const [licenses, setLicenses] = useState<License[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedLicense, setSelectedLicense] = useState<License | null>(null);
@@ -141,28 +142,26 @@ export default function Licenses() {
 
       <Portal>
         <Dialog visible={selectedLicense !== null} onDismiss={closeDialog}>
-          <Dialog.Title>License Details</Dialog.Title>
+          <Dialog.Title>
+            <Text style={{color: theme.colors.onSurface, fontSize: 20}}>
+              License Details
+            </Text>
+          </Dialog.Title>
           <Dialog.Content>
             {selectedLicense && (
               <Text style={{color: theme.colors.onSurface}}>
-                License ID:{selectedLicense.licenseid}
-                {'\n'}
-                {'\n'}
+                License ID: {selectedLicense.licenseid}
+                {'\n\n'}
                 Type: {selectedLicense.type === 0 ? 'Regular' : 'Other'}
-                {'\n'}
-                {'\n'}
+                {'\n\n'}
                 License Days: {selectedLicense.licensedays}
-                {'\n'}
-                {'\n'}
+                {'\n\n'}
                 Max Activation: {selectedLicense.maxactivation}
-                {'\n'}
-                {'\n'}
+                {'\n\n'}
                 Status: {selectedLicense.status === 0 ? 'Active' : 'Inactive'}
-                {'\n'}
-                {'\n'}
+                {'\n\n'}
                 Activated On: {selectedLicense.activatedon ? 'Yes' : 'No'}
-                {'\n'}
-                {'\n'}
+                {'\n\n'}
                 Expiry Date: {selectedLicense.expirydate}
               </Text>
             )}
@@ -183,13 +182,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   card: {
-    height: 80,
-    marginBottom: 0,
+    height: 100,
     borderRadius: 0,
-    elevation: 5,
+    marginVertical: 0,
+    marginHorizontal: 0,
   },
   cardText: {
-    fontSize: 16,
+    fontSize: 20,
     fontWeight: 'bold',
     top: 10,
   },

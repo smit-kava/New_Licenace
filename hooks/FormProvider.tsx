@@ -20,7 +20,5 @@ export default function FormProvider({ children, methods }: Props) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 16,
-    backgroundColor:theme.dark ? 'white' : 'black',
   },
 });

@@ -7,23 +7,31 @@ import Licenses from '../Pages/Licenses';
 import {Decodes, Groups, License, Menu, Users} from '../assets/Iconify-Icon';
 import TabIcon from '../components/TabIcon';
 import {Button, Icon, IconButton, useTheme} from 'react-native-paper';
-import {DrawerActions, NavigationProp, useNavigation} from '@react-navigation/native';
+import {
+  DrawerActions,
+  NavigationProp,
+  useNavigation,
+} from '@react-navigation/native';
 import {RootStackParamList} from './Stack';
-import { TouchableOpacity } from 'react-native';
+import {TouchableOpacity} from 'react-native';
 
-  const Tab = createBottomTabNavigator();
+const Tab = createBottomTabNavigator();
 
 const DrawerToggleButton = () => {
+  const theme = useTheme();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   return (
     <TouchableOpacity
       onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
-      style={{marginRight: 10}}>
-      <Icon source={require('../assets/Menu/menu.png')} size={22} />
+      style={{marginLeft: 10}}>
+      <Icon
+        source={require('../assets/Menu/menu.png')}
+        color={theme.colors.onSurface}
+        size={22}
+      />
     </TouchableOpacity>
   );
 };
-
 
 const BottomTabs = () => {
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
@@ -31,11 +39,11 @@ const BottomTabs = () => {
   return (
     <Tab.Navigator
       screenOptions={{
+        headerTintColor: theme.colors.onSurface,
         headerShown: false,
         headerStyle: {
           backgroundColor: theme.colors.surface,
         },
-        headerTintColor: theme.colors.onSurface,
         tabBarStyle: {
           height: 70,
           paddingBottom: 10,
@@ -51,10 +59,14 @@ const BottomTabs = () => {
         name="Dashbord"
         component={Dashbord}
         options={{
-          headerTintColor: theme.colors.onSurface,
           headerLeft: () => <DrawerToggleButton />,
           tabBarLabel: '',
           headerShown: true,
+          headerStyle: {
+            height: 100,
+            width: 100,
+            backgroundColor: theme.colors.background,
+          },
           tabBarIcon: ({focused}) => (
             <TabIcon
               focused={focused}
@@ -72,6 +84,11 @@ const BottomTabs = () => {
         options={{
           headerTintColor: theme.colors.onSurface,
           headerShown: true,
+            headerStyle: {
+            height: 100,
+            width: 100,
+            backgroundColor: theme.colors.background,
+          },
           title: 'Customers',
           headerLeft: () => <DrawerToggleButton />,
           headerRight: () => (
@@ -99,6 +116,11 @@ const BottomTabs = () => {
         name="Decode"
         component={Decode}
         options={{
+            headerStyle: {
+            height: 100,
+            width: 100,
+            backgroundColor: theme.colors.background,
+          },
           headerTintColor: theme.colors.onSurface,
           headerLeft: () => <DrawerToggleButton />,
           headerShown: true,
@@ -118,6 +140,11 @@ const BottomTabs = () => {
         name="License"
         component={Licenses}
         options={{
+            headerStyle: {
+            height: 100,
+            width: 100,
+            backgroundColor: theme.colors.background,
+          },
           headerShown: true,
           tabBarLabel: '',
           headerLeft: () => <DrawerToggleButton />,

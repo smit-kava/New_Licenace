@@ -7,7 +7,7 @@ import {
 } from '@react-navigation/native';
 import React from 'react';
 import {Controller, useForm} from 'react-hook-form';
-import {Alert, StatusBar, StyleSheet, View} from 'react-native';
+import {Alert, StyleSheet, View} from 'react-native';
 import {Button, TextInput, useTheme} from 'react-native-paper';
 import {Dropdown} from 'react-native-paper-dropdown';
 import uuid from 'react-native-uuid';
@@ -16,7 +16,6 @@ import {License} from '../common/License';
 import {showFlash} from '../components/Flash';
 import FormProvider from '../hooks/FormProvider';
 import {RootStackParamList} from '../Navigation/Stack';
-import Textinput from '../hooks/Textinput';
 import WrapperContainer from '../components/WrapperContainer';
 
 const NewLicense = z.object({
@@ -30,17 +29,16 @@ const NewLicense = z.object({
   activatedon: z.string(),
   expirydate: z.string(),
 });
-const theme = useTheme();
+
 const AddLicense = () => {
+  const theme = useTheme();
   const navigation = useNavigation<NavigationProp<RootStackParamList>>();
   const route =
     useRoute<RouteProp<{params: {id: string; objLicense: License}}>>();
-
-  const {params} = route;
-
   const {objLicense, id} = route.params;
+
   const methods = useForm<License>({
-    resolver: zodResolver(NewLicense) as any,
+    resolver: zodResolver(NewLicense),
     defaultValues: objLicense || {
       licenseid: '',
       customerid: '',
@@ -61,38 +59,30 @@ const AddLicense = () => {
 
   const onSubmit = (data: License) => {
     if (data.licenseid === '') {
-      data.licenseid = uuid.v4();
-      data.customerid = params!.id;
-      if (
-        data.customerid === '' ||
-        data.customerid === undefined ||
-        data.customerid === null
-      ) {
-        Alert.alert('Id is Empty');
+      data.licenseid = uuid.v4().toString();
+      data.customerid = id;
+      if (!data.customerid) {
+        Alert.alert('Customer ID is empty');
         return;
       }
       License.CreateLicense(
         data,
         (res: License) => {
-          console.log('License created successfully:', res);
           showFlash('License created successfully', 'success');
-          navigation.navigate('Dashbord', {screen: 'Customers'});
-          Alert.alert('License created successfully', JSON.stringify(res));
+          navigation.goBack();
         },
         (err: string) => {
-          console.error('Error creating license:', err);
-          Alert.alert('Error creating license:', err);
+          Alert.alert('Error creating license', err);
         },
       );
     } else {
       License.updateLicense(
         data,
         (res: License) => {
-          Alert.alert('Customer updated successfully', JSON.stringify(res));
-          console.log('Customer updated:', res);
+          Alert.alert('License updated successfully');
         },
         (err: string) => {
-          Alert.alert('Failed to update customer', err);
+          Alert.alert('Failed to update license', err);
         },
       );
     }
@@ -110,27 +100,29 @@ const AddLicense = () => {
               placeholder="Select Type"
               options={option}
               value={String(field.value)}
-              onSelect={value => {
-                field.onChange(parseInt(value || '0', 10));
-              }}
+              onSelect={value => field.onChange(parseInt(value || '0', 10))}
             />
           )}
         />
+
+        {/* Display Name */}
         <Controller
           control={methods.control}
           name="displayname"
           render={({field}) => (
             <TextInput
-              label="displayname"
+              label="Display Name"
               mode="outlined"
-              style={{margin: 10, backgroundColor: theme.colors.onBackground}}
+              style={[styles.input, {backgroundColor: theme.colors.surface}]}
               onChangeText={field.onChange}
               value={field.value}
               error={!!methods.formState.errors.displayname}
-              placeholder="Enter your License Name"
+              placeholder="Enter license name"
             />
           )}
         />
+
+        {/* License Days */}
         <Controller
           control={methods.control}
           name="licensedays"
@@ -138,15 +130,17 @@ const AddLicense = () => {
             <TextInput
               label="License Days"
               mode="outlined"
-              style={{margin: 10, backgroundColor: theme.colors.onBackground}}
-              onChangeText={text => field.onChange(parseInt(text, 100) || 0)}
-              keyboardType="numeric"
+              style={[styles.input, {backgroundColor: theme.colors.surface}]}
+              onChangeText={text => field.onChange(parseInt(text, 10) || 0)}
               value={String(field.value)}
+              keyboardType="numeric"
               error={!!methods.formState.errors.licensedays}
-              placeholder="Enter your Liceance Days"
+              placeholder="Enter license duration (days)"
             />
           )}
         />
+
+        {/* Max Activation */}
         <Controller
           control={methods.control}
           name="maxactivation"
@@ -154,40 +148,29 @@ const AddLicense = () => {
             <TextInput
               label="Max Activation"
               mode="outlined"
-              style={{margin: 10, backgroundColor: theme.colors.onBackground}}
+              style={[styles.input, {backgroundColor: theme.colors.surface}]}
               onChangeText={text => field.onChange(parseInt(text, 10) || 0)}
               value={String(field.value)}
               keyboardType="numeric"
               error={!!methods.formState.errors.maxactivation}
-              placeholder="Enter your maxactivation"
+              placeholder="Enter max activation count"
             />
           )}
         />
-        <View
-          style={{
-            display: 'flex',
-            flexDirection: 'row',
-            justifyContent: 'space-around',
-            alignContent: 'center',
-          }}>
+
+        {/* Submit & Cancel Buttons */}
+        <View style={styles.buttonRow}>
           <Button
             mode="outlined"
             onPress={methods.handleSubmit(onSubmit)}
-            style={[
-              styles.Button,
-              {backgroundColor: theme.colors.onBackground},
-            ]}>
+            style={[styles.button, {backgroundColor: theme.colors.surface}]}>
             Submit
           </Button>
+
           <Button
             mode="outlined"
-            style={[
-              styles.Button,
-              {backgroundColor: theme.colors.onBackground},
-            ]}
-            onPress={() => {
-              navigation.navigate('Dashbord');
-            }}>
+            onPress={() => navigation.goBack()}
+            style={[styles.button, {backgroundColor: theme.colors.surface}]}>
             Cancel
           </Button>
         </View>
@@ -195,13 +178,20 @@ const AddLicense = () => {
     </WrapperContainer>
   );
 };
+
 export default AddLicense;
+
 const styles = StyleSheet.create({
-  constainer: {
-    flex: 1,
+  input: {
+    margin: 10,
   },
-  Button: {
-    borderRadius: 0,
+  buttonRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginTop: 20,
+  },
+  button: {
     width: '45%',
+    borderRadius: 4,
   },
 });
